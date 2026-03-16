@@ -50,15 +50,15 @@ export default function NewsFeed() {
   }, []);
 
   return (
-    <div className="glass p-8 rounded-3xl border-white/5 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-amber-500/10 transition-colors" />
+    <div className="glass p-8 rounded-3xl border-black/5 relative overflow-hidden group">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-black/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-amber-500/10 transition-colors" />
       
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-white/5 text-zinc-400 rounded-xl border border-white/10">
+          <div className="p-2.5 bg-black/5 text-zinc-500 rounded-xl border border-black/10">
             <Newspaper size={18} />
           </div>
-          <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-white">Market Intelligence</h3>
+          <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-black">Market Intelligence</h3>
         </div>
         <button className="text-[10px] font-black text-amber-500 uppercase tracking-widest hover:text-amber-400 transition-colors">View All</button>
       </div>
@@ -79,7 +79,7 @@ export default function NewsFeed() {
               <div className="h-1.5 bg-amber-500/10 rounded-full w-2/3 animate-pulse" />
             </div>
           ) : (
-            <p className="text-[12px] text-zinc-300 leading-relaxed font-medium italic">
+            <p className="text-[12px] text-zinc-600 leading-relaxed font-medium italic">
               "{briefing}"
             </p>
           )}
@@ -104,10 +104,10 @@ export default function NewsFeed() {
                 }`} />
                 <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">{item.source} • {item.time}</span>
               </div>
-              <h4 className="text-[13px] font-bold text-white leading-snug group-hover:text-amber-500 transition-colors mb-2 tracking-tight">
+              <h4 className="text-[13px] font-bold text-black leading-snug group-hover:text-amber-500 transition-colors mb-2 tracking-tight">
                 {item.title}
               </h4>
-              <p className="text-[11px] text-zinc-400 leading-relaxed line-clamp-2 font-medium">
+              <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-2 font-medium">
                 {item.summary}
               </p>
             </div>

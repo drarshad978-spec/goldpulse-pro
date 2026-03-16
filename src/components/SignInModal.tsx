@@ -74,7 +74,7 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
                   <span>New User? Register via form</span>
                 </div>
               </div>
-              <div className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">
+              <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 GoldPulse Pro Security
               </div>
             </div>

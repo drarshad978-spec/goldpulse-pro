@@ -9,16 +9,16 @@
 
 @layer base {
   body {
-    @apply bg-[#050505] text-white antialiased selection:bg-amber-500/30;
+    @apply bg-[#F8F9FA] text-[#1A1A1A] antialiased selection:bg-amber-500/30;
   }
 }
 
 .glass {
-  @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)];
+  @apply bg-white/70 backdrop-blur-xl border border-black/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
 }
 
 .glass-dark {
-  @apply bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl;
+  @apply bg-white/90 backdrop-blur-2xl border border-black/5 shadow-xl;
 }
 
 .gold-gradient {
@@ -43,7 +43,7 @@
 }
 
 .ticker-wrap {
-  @apply bg-black/80 backdrop-blur-md text-white py-3 overflow-hidden whitespace-nowrap border-b border-white/5;
+  @apply bg-white/80 backdrop-blur-md text-[#1A1A1A] py-3 overflow-hidden whitespace-nowrap border-b border-black/5;
 }
 
 @keyframes marquee {

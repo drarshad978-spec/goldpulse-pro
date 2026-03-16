@@ -37,8 +37,8 @@ export default function Chart() {
         fontFamily: 'Inter, sans-serif',
       },
       grid: {
-        vertLines: { color: 'rgba(255, 255, 255, 0.03)' },
-        horzLines: { color: 'rgba(255, 255, 255, 0.03)' },
+        vertLines: { color: 'rgba(0, 0, 0, 0.03)' },
+        horzLines: { color: 'rgba(0, 0, 0, 0.03)' },
       },
       width: chartContainerRef.current.clientWidth,
       height: 400,
@@ -80,11 +80,11 @@ export default function Chart() {
   }, [historicalPrices]);
 
   return (
-    <div className="glass p-8 rounded-3xl border-white/5 relative overflow-hidden group">
+    <div className="glass p-8 rounded-3xl border-black/5 relative overflow-hidden group">
       <div className="absolute top-0 left-0 w-64 h-64 bg-amber-500/5 rounded-full -ml-32 -mt-32 blur-3xl" />
       
       {loading && (
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-md z-20 flex items-center justify-center rounded-3xl">
+        <div className="absolute inset-0 bg-white/40 backdrop-blur-md z-20 flex items-center justify-center rounded-3xl">
           <div className="flex flex-col items-center gap-4">
             <div className="w-10 h-10 border-4 border-amber-500 border-t-transparent rounded-full animate-spin shadow-[0_0_15px_rgba(245,158,11,0.5)]" />
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-500 animate-pulse">Syncing Market...</span>
@@ -95,8 +95,8 @@ export default function Chart() {
         <div>
           <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 mb-3">Market Performance</h3>
           <div className="flex items-baseline gap-4">
-            <span className="text-4xl font-black text-white tracking-tighter text-shadow-glow">${historicalPrices[historicalPrices.length - 1]?.value.toLocaleString()}</span>
-            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full text-[11px] font-black">
+            <span className="text-4xl font-black text-black tracking-tighter text-shadow-glow">${historicalPrices[historicalPrices.length - 1]?.value.toLocaleString()}</span>
+            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 rounded-full text-[11px] font-black">
               <span>+12.45</span>
               <span className="opacity-60">(0.52%)</span>
             </div>
@@ -104,12 +104,12 @@ export default function Chart() {
         </div>
         
         <div className="flex flex-col items-end gap-4">
-          <div className="flex items-center gap-2 p-1.5 bg-white/5 rounded-2xl border border-white/5 overflow-x-auto max-w-full backdrop-blur-xl">
+          <div className="flex items-center gap-2 p-1.5 bg-black/5 rounded-2xl border border-black/5 overflow-x-auto max-w-full backdrop-blur-xl">
             {['1D', '1W', '1M', '1Y', 'ALL', 'CUSTOM'].map(t => (
               <button 
                 key={t} 
                 onClick={() => setSelectedTimeframe(t)}
-                className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${selectedTimeframe === t ? 'bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.4)]' : 'text-zinc-500 hover:text-white hover:bg-white/5'}`}
+                className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${selectedTimeframe === t ? 'bg-amber-500 text-black shadow-[0_0_20px_rgba(245,158,11,0.4)]' : 'text-zinc-500 hover:text-black hover:bg-black/5'}`}
               >
                 {t}
               </button>
@@ -118,20 +118,20 @@ export default function Chart() {
 
           {selectedTimeframe === 'CUSTOM' && (
             <div className="flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
-              <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-2 shadow-2xl backdrop-blur-xl">
+              <div className="flex items-center gap-3 bg-black/5 border border-black/10 rounded-xl px-4 py-2 shadow-2xl backdrop-blur-xl">
                 <Calendar size={14} className="text-amber-500" />
                 <input 
                   type="date" 
                   value={customRange.start}
                   onChange={(e) => setCustomRange(prev => ({ ...prev, start: e.target.value }))}
-                  className="text-[10px] font-bold text-white outline-none bg-transparent [color-scheme:dark]"
+                  className="text-[10px] font-bold text-black outline-none bg-transparent [color-scheme:light]"
                 />
                 <span className="text-zinc-600 text-[10px] font-black uppercase">to</span>
                 <input 
                   type="date" 
                   value={customRange.end}
                   onChange={(e) => setCustomRange(prev => ({ ...prev, end: e.target.value }))}
-                  className="text-[10px] font-bold text-white outline-none bg-transparent [color-scheme:dark]"
+                  className="text-[10px] font-bold text-black outline-none bg-transparent [color-scheme:light]"
                 />
               </div>
             </div>

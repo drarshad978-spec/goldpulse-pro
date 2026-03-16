@@ -89,16 +89,16 @@ export default function AIChatbot() {
   };
 
   return (
-    <div className="flex flex-col h-[650px] glass rounded-3xl overflow-hidden border-white/5 relative">
+    <div className="flex flex-col h-[450px] glass rounded-3xl overflow-hidden border-black/5 relative">
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-500 z-20" />
       
-      <div className="p-8 border-b border-white/5 flex items-center justify-between bg-white/5 backdrop-blur-2xl relative z-10">
+      <div className="p-8 border-b border-black/5 flex items-center justify-between bg-black/5 backdrop-blur-2xl relative z-10">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 vibrant-gradient rounded-2xl flex items-center justify-center text-white shadow-[0_0_20px_rgba(245,158,11,0.3)] border border-white/20">
+          <div className="w-14 h-14 vibrant-gradient rounded-2xl flex items-center justify-center text-black shadow-[0_0_20px_rgba(245,158,11,0.3)] border border-black/10">
             <Bot size={32} />
           </div>
           <div>
-            <h3 className="font-black text-white text-lg tracking-tight">Market Oracle</h3>
+            <h3 className="font-black text-zinc-900 text-lg tracking-tight">Market Oracle</h3>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
               <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">AI Intelligence Active</p>
@@ -106,13 +106,13 @@ export default function AIChatbot() {
           </div>
         </div>
         {isThinking && (
-          <div className="flex items-center gap-2 text-[10px] font-black text-amber-500 uppercase tracking-[0.2em] animate-pulse bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">
+          <div className="flex items-center gap-2 text-[10px] font-black text-amber-600 uppercase tracking-[0.2em] animate-pulse bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">
             <Brain size={14}/> Deep Analysis
           </div>
         )}
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-black/20 relative z-10 scrollbar-hide">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-black/[0.02] relative z-10 scrollbar-hide">
         <AnimatePresence initial={false}>
           {messages.map((msg, i) => (
             <motion.div
@@ -123,15 +123,15 @@ export default function AIChatbot() {
             >
               <div className={`max-w-[85%] p-6 rounded-3xl flex gap-4 relative group ${
                 msg.role === 'user' 
-                  ? 'bg-amber-500 text-black rounded-tr-none font-bold shadow-[0_10px_30px_rgba(245,158,11,0.2)]' 
-                  : 'glass-dark border-white/10 text-white rounded-tl-none shadow-2xl'
+                  ? 'bg-amber-500 text-black rounded-tr-none font-bold shadow-xl' 
+                  : 'glass border-black/5 text-zinc-900 rounded-tl-none shadow-lg'
               }`}>
                 <div className="text-[13px] leading-relaxed">
                   {msg.text}
                 </div>
                 {msg.role === 'bot' && (
                   <div className="absolute -left-10 top-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-zinc-500">
+                    <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-zinc-500">
                       <Bot size={14} />
                     </div>
                   </div>
@@ -142,7 +142,7 @@ export default function AIChatbot() {
         </AnimatePresence>
         {isLoading && !isThinking && (
           <div className="flex justify-start">
-            <div className="glass-dark border-white/10 px-8 py-4 rounded-full flex items-center gap-4 shadow-2xl">
+            <div className="glass border-black/5 px-8 py-4 rounded-full flex items-center gap-4 shadow-lg">
               <div className="flex gap-2">
                 <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '0ms' }} />
                 <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '150ms' }} />
@@ -153,7 +153,7 @@ export default function AIChatbot() {
         )}
       </div>
 
-      <div className="p-8 border-t border-white/5 bg-white/5 backdrop-blur-2xl relative z-10">
+      <div className="p-8 border-t border-black/5 bg-black/5 backdrop-blur-2xl relative z-10">
         <div className="flex gap-4 items-center">
           <div className="flex-1 relative group">
             <input
@@ -162,19 +162,19 @@ export default function AIChatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Inquire about market trends..."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-[13px] text-white focus:ring-2 focus:ring-amber-500/50 outline-none transition-all placeholder:text-zinc-600 focus:bg-white/10"
+              className="w-full bg-white border border-black/10 rounded-2xl px-8 py-5 text-[13px] text-zinc-900 focus:ring-2 focus:ring-amber-500/50 outline-none transition-all placeholder:text-zinc-400"
             />
             <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4">
               <button 
                 onClick={() => fileInputRef.current?.click()}
-                className="p-2 text-zinc-500 hover:text-amber-500 transition-all hover:scale-110"
+                className="p-2 text-zinc-400 hover:text-amber-600 transition-all hover:scale-110"
                 title="Analyze Image"
               >
                 <ImageIcon size={20} />
               </button>
               <button 
                 onClick={handleThinkingAnalysis}
-                className={`p-2 transition-all hover:scale-110 ${input.trim() ? 'text-amber-500' : 'text-zinc-500'}`}
+                className={`p-2 transition-all hover:scale-110 ${input.trim() ? 'text-amber-600' : 'text-zinc-400'}`}
                 title="Deep Analysis"
               >
                 <Brain size={20} />
@@ -184,7 +184,7 @@ export default function AIChatbot() {
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center hover:bg-amber-500 hover:scale-105 disabled:opacity-20 transition-all shadow-2xl active:scale-95"
+            className="w-16 h-16 bg-amber-500 text-black rounded-2xl flex items-center justify-center hover:bg-amber-600 hover:scale-105 disabled:opacity-20 transition-all shadow-xl active:scale-95"
           >
             <Send size={28} />
           </button>

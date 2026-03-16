@@ -72,7 +72,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 <HelpCircle size={12} />
                 <span>Your privacy is our priority</span>
               </div>
-              <div className="text-[10px] font-bold text-zinc-300 uppercase tracking-widest">
+              <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
                 Powered by Google Forms
               </div>
             </div>

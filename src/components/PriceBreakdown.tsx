@@ -25,29 +25,29 @@ export default function PriceBreakdown() {
   ];
 
   return (
-    <div className="glass rounded-3xl overflow-hidden border-white/5 relative group">
-      <div className="bg-white/5 px-8 py-5 border-b border-white/5 flex justify-between items-center backdrop-blur-2xl">
-        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Regional Physical Rates ({selectedCity})</h3>
-        <span className="text-[9px] font-black text-amber-500 italic tracking-[0.2em] uppercase">{selectedCurrency} Base</span>
+    <div className="glass rounded-3xl overflow-hidden border-black/5 relative group">
+      <div className="bg-black/5 px-8 py-5 border-b border-black/5 flex justify-between items-center backdrop-blur-2xl">
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-900">Regional Physical Rates ({selectedCity})</h3>
+        <span className="text-[9px] font-black text-amber-600 italic tracking-[0.2em] uppercase">{selectedCurrency} Base</span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-white/5 bg-white/5">
-              <th className="px-8 py-4 text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em]">Denomination</th>
-              <th className="px-8 py-4 text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] text-right">24K Investment</th>
-              <th className="px-8 py-4 text-[9px] font-black text-zinc-500 uppercase tracking-[0.2em] text-right">22K Jewelry</th>
+            <tr className="border-b border-black/5 bg-black/5">
+              <th className="px-8 py-4 text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em]">Denomination</th>
+              <th className="px-8 py-4 text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] text-right">24K Investment</th>
+              <th className="px-8 py-4 text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] text-right">22K Jewelry</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-black/5">
             {units.map((unit) => (
-              <tr key={unit.key} className="hover:bg-white/5 transition-all group">
-                <td className="px-8 py-4 text-[12px] font-bold text-zinc-300 group-hover:text-white transition-colors">{unit.name}</td>
-                <td className="px-8 py-4 text-[13px] font-black text-white text-right tracking-tight">
-                  <span className="text-amber-500 mr-1.5 text-[10px]">{symbol}</span>
+              <tr key={unit.key} className="hover:bg-black/5 transition-all group">
+                <td className="px-8 py-4 text-[12px] font-bold text-zinc-600 group-hover:text-zinc-900 transition-colors">{unit.name}</td>
+                <td className="px-8 py-4 text-[13px] font-black text-zinc-900 text-right tracking-tight">
+                  <span className="text-amber-600 mr-1.5 text-[10px]">{symbol}</span>
                   {prices.gold24[unit.key as keyof typeof prices.gold24].toLocaleString(undefined, { maximumFractionDigits: 2 })}
                 </td>
-                <td className="px-8 py-4 text-[12px] font-bold text-zinc-500 text-right tracking-tight group-hover:text-zinc-400 transition-colors">
+                <td className="px-8 py-4 text-[12px] font-bold text-zinc-500 text-right tracking-tight group-hover:text-zinc-600 transition-colors">
                   <span className="mr-1.5 text-[10px]">{symbol}</span>
                   {prices.gold22[unit.key as keyof typeof prices.gold22].toLocaleString(undefined, { maximumFractionDigits: 2 })}
                 </td>
