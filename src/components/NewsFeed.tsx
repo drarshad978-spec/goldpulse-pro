@@ -65,49 +65,54 @@ export default function NewsFeed() {
 
       {/* AI Market Briefing */}
       {(briefing || summarizing) && (
-        <div className="mb-10 p-5 bg-amber-500/5 border border-amber-500/20 rounded-2xl relative overflow-hidden backdrop-blur-xl">
+        <div className="mb-10 p-8 bg-amber-500/5 border border-amber-500/20 rounded-[2rem] relative overflow-hidden backdrop-blur-xl flex flex-col md:flex-row items-center gap-8">
           <div className="absolute top-0 right-0 p-3 opacity-10">
             <Sparkles size={40} className="text-amber-500" />
           </div>
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={12} className="text-amber-500" />
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-amber-500">AI Market Briefing</span>
+          <div className="flex-shrink-0">
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles size={12} className="text-amber-500" />
+              <span className="text-[9px] font-black uppercase tracking-[0.3em] text-amber-500">AI Market Briefing</span>
+            </div>
+            <div className="p-4 bg-amber-500/10 rounded-2xl border border-amber-500/20">
+              <Clock size={24} className="text-amber-500" />
+            </div>
           </div>
           {summarizing ? (
-            <div className="space-y-3">
+            <div className="flex-1 space-y-3">
               <div className="h-1.5 bg-amber-500/10 rounded-full w-full animate-pulse" />
               <div className="h-1.5 bg-amber-500/10 rounded-full w-2/3 animate-pulse" />
             </div>
           ) : (
-            <p className="text-[12px] text-zinc-600 leading-relaxed font-medium italic">
+            <p className="flex-1 text-[14px] text-zinc-700 leading-relaxed font-medium italic">
               "{briefing}"
             </p>
           )}
         </div>
       )}
 
-      <div className="space-y-8 relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
         {loading ? (
-          [1, 2, 3].map(i => (
-            <div key={i} className="animate-pulse space-y-3">
+          [1, 2, 3, 4, 5, 6].map(i => (
+            <div key={i} className="animate-pulse space-y-3 p-6 bg-black/5 rounded-2xl">
               <div className="h-3 bg-white/5 rounded-full w-3/4" />
               <div className="h-2 bg-white/5 rounded-full w-full" />
             </div>
           ))
         ) : (
           news.map((item, i) => (
-            <div key={i} className="group cursor-pointer">
-              <div className="flex items-center gap-3 mb-2">
+            <div key={i} className="group cursor-pointer p-6 bg-black/5 rounded-2xl border border-transparent hover:border-amber-500/30 transition-all hover:bg-white hover:shadow-2xl">
+              <div className="flex items-center gap-3 mb-4">
                 <span className={`w-2 h-2 rounded-full shadow-[0_0_10px_currentColor] ${
                   item.impact === 'high' ? 'text-rose-500 bg-rose-500' : 
                   item.impact === 'medium' ? 'text-amber-500 bg-amber-500' : 'text-emerald-500 bg-emerald-500'
                 }`} />
                 <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">{item.source} • {item.time}</span>
               </div>
-              <h4 className="text-[13px] font-bold text-black leading-snug group-hover:text-amber-500 transition-colors mb-2 tracking-tight">
+              <h4 className="text-[14px] font-bold text-black leading-snug group-hover:text-amber-600 transition-colors mb-3 tracking-tight">
                 {item.title}
               </h4>
-              <p className="text-[11px] text-zinc-500 leading-relaxed line-clamp-2 font-medium">
+              <p className="text-[12px] text-zinc-500 leading-relaxed line-clamp-3 font-medium">
                 {item.summary}
               </p>
             </div>

@@ -123,20 +123,18 @@ export default function App() {
               {/* Top Row: Price Cards (Landscape) */}
               <PriceCards />
 
-              <div className="grid grid-cols-12 gap-6">
-                {/* Left: Chart */}
-                <div className="col-span-12 lg:col-span-8">
-                  <div className="relative">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 blur-xl opacity-50" />
-                    <Chart />
-                  </div>
+              <div className="space-y-8">
+                {/* Full Width Chart */}
+                <div className="relative">
+                  <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 blur-xl opacity-50" />
+                  <Chart />
                 </div>
                 
-                {/* Right: News & Alerts */}
-                <div className="col-span-12 lg:col-span-4 space-y-6">
-                  <NewsFeed />
-                  <AlertsPanel />
-                </div>
+                {/* Landscape Market Intelligence */}
+                <NewsFeed />
+                
+                {/* Landscape Price Sentinels */}
+                <AlertsPanel />
               </div>
 
               {/* Technical Indicators (Landscape) */}
