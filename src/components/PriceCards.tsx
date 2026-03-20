@@ -4,7 +4,7 @@ import { Coins, DollarSign, TrendingUp, ChevronDown } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function PriceCards() {
-  const { spotGold, silver, usdPkr, selectedCurrency, exchangeRates } = useStore();
+  const { spotGold, silver, usdPkr, selectedCurrency, setSelectedCurrency, exchangeRates } = useStore();
   const [unit, setUnit] = useState<'ounce' | 'tola' | 'tenGram' | 'gram' | 'kilogram'>('ounce');
 
   const currencySymbols: Record<string, string> = {
@@ -14,11 +14,15 @@ export default function PriceCards() {
     GBP: '£',
     AED: 'AED',
     SAR: 'SR',
-    INR: '₹'
+    INR: '₹',
+    CAD: 'C$'
   };
 
   const symbol = currencySymbols[selectedCurrency] || selectedCurrency;
   const rate = exchangeRates[selectedCurrency] || 1;
+
+  const importantCurrencies = ['USD', 'PKR', 'AED', 'SAR', 'GBP', 'EUR', 'INR', 'CAD'];
+  const importantUnits: Array<'ounce' | 'gram' | 'tenGram' | 'tola' | 'kilogram'> = ['ounce', 'gram', 'tenGram', 'tola', 'kilogram'];
 
   const unitFactors = {
     ounce: 1,
@@ -91,24 +95,53 @@ export default function PriceCards() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-900">Live Spot Rates</h3>
-        <div className="relative inline-block">
-          <select 
-            value={unit}
-            onChange={(e) => setUnit(e.target.value as any)}
-            className="appearance-none bg-black/5 border border-black/10 rounded-full px-5 py-2 pr-10 text-[10px] font-bold uppercase tracking-widest text-zinc-500 outline-none cursor-pointer hover:bg-black/10 transition-all focus:border-amber-500/50"
-          >
-            <option value="ounce" className="bg-white text-zinc-900">Ounce</option>
-            <option value="tola" className="bg-white text-zinc-900">Tola</option>
-            <option value="tenGram" className="bg-white text-zinc-900">10 Gram</option>
-            <option value="gram" className="bg-white text-zinc-900">Gram</option>
-            <option value="kilogram" className="bg-white text-zinc-900">Kilogram</option>
-          </select>
-          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" size={14} />
+    <div className="space-y-8">
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-900 flex items-center gap-3">
+            <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
+            Live Spot Rates
+          </h3>
+          
+          {/* Unit Selector Buttons */}
+          <div className="flex flex-wrap items-center gap-1 bg-black/5 p-1 rounded-xl border border-black/5">
+            {importantUnits.map((u) => (
+              <button
+                key={u}
+                onClick={() => setUnit(u)}
+                className={`px-4 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all ${
+                  unit === u 
+                    ? 'bg-white text-amber-600 shadow-sm' 
+                    : 'text-zinc-500 hover:text-zinc-900'
+                }`}
+              >
+                {u === 'tenGram' ? '10 Gram' : u === 'kilogram' ? 'Kilogram' : u}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Currency Selector Buttons */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mr-2">Currency:</span>
+          <div className="flex flex-wrap gap-2">
+            {importantCurrencies.map((curr) => (
+              <button
+                key={curr}
+                onClick={() => setSelectedCurrency(curr)}
+                className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all border ${
+                  selectedCurrency === curr 
+                    ? 'bg-amber-500 text-black border-amber-600 shadow-lg shadow-amber-500/20' 
+                    : 'bg-white text-zinc-500 border-black/5 hover:border-black/10 hover:text-zinc-900'
+                }`}
+              >
+                {curr}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {cards.map((card, i) => (
           <motion.div

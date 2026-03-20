@@ -1,15 +1,18 @@
 import { create } from 'zustand';
 import { calculatePrices, GoldPrices } from '../utils/calculations';
 import { HistoricalData } from '../api/historical';
+import { User } from 'firebase/auth';
 
 export interface Alert {
-  id: number;
+  id: string;
   targetPrice: number;
   direction: 'above' | 'below';
   triggered: boolean;
+  createdAt?: any;
 }
 
 interface GoldPulseState {
+  user: User | null;
   spotGold: number;
   silver: number;
   usdPkr: number;
@@ -21,14 +24,16 @@ interface GoldPulseState {
   exchangeRates: Record<string, number>;
   cityPremiums: Record<string, number>;
   
+  setUser: (user: User | null) => void;
   setSpotGold: (price: number) => void;
   setSilver: (price: number) => void;
   setUsdPkr: (rate: number) => void;
   setExchangeRates: (rates: Record<string, number>) => void;
   setHistoricalPrices: (data: HistoricalData[]) => void;
+  setAlerts: (alerts: Alert[]) => void;
   addAlert: (alert: Omit<Alert, 'id' | 'triggered'>) => void;
-  removeAlert: (id: number) => void;
-  triggerAlert: (id: number) => void;
+  removeAlert: (id: string) => void;
+  triggerAlert: (id: string) => void;
   setSelectedCity: (city: string) => void;
   setSelectedCurrency: (currency: string) => void;
   setSelectedTimeframe: (timeframe: string) => void;
@@ -36,6 +41,7 @@ interface GoldPulseState {
 }
 
 const useStore = create<GoldPulseState>((set, get) => ({
+  user: null,
   spotGold: 2000,
   silver: 23.5,
   usdPkr: 280,
@@ -66,6 +72,7 @@ const useStore = create<GoldPulseState>((set, get) => ({
   },
   cityPremiums: { Karachi: 0, Lahore: 200, Islamabad: 150 },
 
+  setUser: (user) => set({ user }),
   setSpotGold: (price) => set({ spotGold: price }),
   setSilver: (price) => set({ silver: price }),
   setUsdPkr: (rate) => set((state) => ({ 
@@ -77,8 +84,9 @@ const useStore = create<GoldPulseState>((set, get) => ({
     usdPkr: rates.PKR || state.usdPkr
   })),
   setHistoricalPrices: (data) => set({ historicalPrices: data }),
+  setAlerts: (alerts) => set({ alerts }),
   addAlert: (alert) => set((state) => ({ 
-    alerts: [...state.alerts, { ...alert, id: Date.now(), triggered: false }] 
+    alerts: [...state.alerts, { ...alert, id: String(Date.now()), triggered: false }] 
   })),
   removeAlert: (id) => set((state) => ({ 
     alerts: state.alerts.filter(a => a.id !== id) 

@@ -1,37 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import useStore from '../store/useStore';
 import { Bell, X, Plus } from 'lucide-react';
+import { db, handleFirestoreError, OperationType } from '../firebase';
+import { collection, addDoc, deleteDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function AlertsPanel() {
-  const { spotGold, alerts, addAlert, removeAlert, triggerAlert } = useStore();
+  const { user, spotGold, alerts, triggerAlert } = useStore();
   const [targetPrice, setTargetPrice] = useState('');
   const [direction, setDirection] = useState<'above' | 'below'>('above');
 
-  const handleAddAlert = () => {
+  const handleAddAlert = async () => {
     if (!targetPrice) return;
-    addAlert({ targetPrice: parseFloat(targetPrice), direction });
+    const price = parseFloat(targetPrice);
+    
+    if (user) {
+      try {
+        await addDoc(collection(db, 'alerts'), {
+          userId: user.uid,
+          targetPrice: price,
+          direction,
+          triggered: false,
+          createdAt: serverTimestamp()
+        });
+      } catch (error) {
+        handleFirestoreError(error, OperationType.CREATE, 'alerts');
+      }
+    } else {
+      // Local only for guests
+      // Note: In this version we assume user should sign in for alerts
+      alert("Please sign in to set price sentinels.");
+    }
     setTargetPrice('');
   };
 
+  const handleRemoveAlert = async (id: string) => {
+    if (user) {
+      try {
+        await deleteDoc(doc(db, 'alerts', id));
+      } catch (error) {
+        handleFirestoreError(error, OperationType.DELETE, `alerts/${id}`);
+      }
+    }
+  };
+
   useEffect(() => {
-    alerts.forEach(alert => {
-      if (!alert.triggered) {
-        const condition = alert.direction === 'above'
-          ? spotGold >= alert.targetPrice
-          : spotGold <= alert.targetPrice;
+    alerts.forEach(async (alertItem) => {
+      if (!alertItem.triggered) {
+        const condition = alertItem.direction === 'above'
+          ? spotGold >= alertItem.targetPrice
+          : spotGold <= alertItem.targetPrice;
         
         if (condition) {
-          triggerAlert(alert.id);
+          if (user) {
+            try {
+              await updateDoc(doc(db, 'alerts', alertItem.id), {
+                triggered: true
+              });
+            } catch (error) {
+              handleFirestoreError(error, OperationType.UPDATE, `alerts/${alertItem.id}`);
+            }
+          }
+          
           if (Notification.permission === 'granted') {
             new Notification('GoldPulse Alert', {
-              body: `Gold has reached your target of $${alert.targetPrice}`,
+              body: `Gold has reached your target of $${alertItem.targetPrice}`,
               icon: '/vite.svg'
             });
           }
         }
       }
     });
-  }, [spotGold, alerts, triggerAlert]);
+  }, [spotGold, alerts, user]);
 
   useEffect(() => {
     if (Notification.permission === 'default') {
@@ -111,7 +150,7 @@ export default function AlertsPanel() {
                     </div>
                   </div>
                   <button 
-                    onClick={() => removeAlert(alert.id)}
+                    onClick={() => handleRemoveAlert(alert.id)}
                     className="text-zinc-600 hover:text-rose-500 transition-all p-2 hover:scale-125"
                   >
                     <X size={18} />

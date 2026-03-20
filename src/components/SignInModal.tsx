@@ -1,6 +1,7 @@
 import React from 'react';
-import { X, LogIn, UserPlus, Shield } from 'lucide-react';
+import { X, LogIn, Shield } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { signInWithGoogle } from '../firebase';
 
 interface SignInModalProps {
   isOpen: boolean;
@@ -8,8 +9,14 @@ interface SignInModalProps {
 }
 
 export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
-  // Placeholder Google Form URL for Sign In / Registration
-  const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdW89_o0W9_O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O-O/viewform?embedded=true";
+  const handleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      onClose();
+    } catch (error) {
+      console.error("Sign in failed:", error);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -27,7 +34,7 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col"
           >
             {/* Header */}
             <div className="px-8 py-6 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/50">
@@ -37,7 +44,7 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-zinc-900 tracking-tight">Terminal Access</h2>
-                  <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest mt-0.5">Sign In • Register • Pro Account</p>
+                  <p className="text-xs font-medium text-zinc-500 uppercase tracking-widest mt-0.5">Sign In • Pro Account</p>
                 </div>
               </div>
               <button 
@@ -49,33 +56,38 @@ export default function SignInModal({ isOpen, onClose }: SignInModalProps) {
             </div>
 
             {/* Content */}
-            <div className="flex-1 overflow-hidden relative bg-zinc-50">
+            <div className="p-12 flex flex-col items-center text-center bg-zinc-50 relative overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-                <div className="flex flex-col items-center gap-4">
-                  <Shield size={120} className="text-amber-500" />
-                  <span className="text-3xl font-black tracking-tighter text-amber-600">SECURE ACCESS</span>
-                </div>
+                <Shield size={200} className="text-amber-500" />
               </div>
               
-              <iframe
-                src={googleFormUrl}
-                className="w-full h-full border-none relative z-10"
-                title="Sign In Form"
-              >
-                Loading…
-              </iframe>
+              <div className="relative z-10 space-y-8">
+                <div className="space-y-4">
+                  <h3 className="text-2xl font-black text-zinc-900 tracking-tighter">WELCOME BACK</h3>
+                  <p className="text-sm text-zinc-500 font-medium leading-relaxed max-w-[280px] mx-auto">
+                    Sign in with your Google account to access your personalized terminal, alerts, and market intelligence.
+                  </p>
+                </div>
+
+                <button 
+                  onClick={handleSignIn}
+                  className="w-full flex items-center justify-center gap-4 px-8 py-4 bg-white border border-zinc-200 rounded-2xl shadow-sm hover:shadow-md hover:bg-zinc-50 transition-all group active:scale-95"
+                >
+                  <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
+                  <span className="text-sm font-bold text-zinc-700 uppercase tracking-widest">Sign in with Google</span>
+                </button>
+
+                <div className="flex items-center gap-2 justify-center text-[10px] font-bold text-zinc-400 uppercase tracking-[0.2em]">
+                  <Shield size={12} />
+                  <span>Secure OAuth2 Authentication</span>
+                </div>
+              </div>
             </div>
 
             {/* Footer */}
-            <div className="px-8 py-4 bg-white border-t border-zinc-100 flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-                  <UserPlus size={12} />
-                  <span>New User? Register via form</span>
-                </div>
-              </div>
+            <div className="px-8 py-4 bg-white border-t border-zinc-100 text-center">
               <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">
-                GoldPulse Pro Security
+                GoldPulse Pro Security • v2.5
               </div>
             </div>
           </motion.div>

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useStore from './store/useStore';
 import { connectGoldWebSocket } from './api/finnhub';
 import { fetchAllExchangeRates } from './api/exchange';
@@ -15,12 +15,14 @@ import AlertsPanel from './components/AlertsPanel';
 import AIChatbot from './components/AIChatbot';
 import NewsFeed from './components/NewsFeed';
 import TechnicalAnalysis from './components/TechnicalAnalysis';
-import { Sparkles, MessageSquare, Menu } from 'lucide-react';
+import { Sparkles, MessageSquare, Menu, LogOut, User as UserIcon } from 'lucide-react';
 import Logo from './components/Logo';
 import FeedbackModal from './components/FeedbackModal';
 import SignInModal from './components/SignInModal';
 import MainMenu from './components/MainMenu';
-import { useState } from 'react';
+import { auth, db, logout, handleFirestoreError, OperationType } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, query, where, onSnapshot, doc, setDoc, serverTimestamp } from 'firebase/firestore';
 
 import Ticker from './components/Ticker';
 import TerminalStatus from './components/TerminalStatus';
@@ -28,11 +30,53 @@ import TerminalStatus from './components/TerminalStatus';
 const FINNHUB_KEY = process.env.FINNHUB_API_KEY || "ct07799r01qj876g83qgct07799r01qj876g83r0";
 
 export default function App() {
-  const { setSpotGold, setSilver, setExchangeRates } = useStore();
+  const { user, setUser, setSpotGold, setSilver, setExchangeRates, setAlerts } = useStore();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setUser(firebaseUser);
+      if (firebaseUser) {
+        // Sync user profile to Firestore
+        try {
+          await setDoc(doc(db, 'users', firebaseUser.uid), {
+            uid: firebaseUser.uid,
+            email: firebaseUser.email,
+            displayName: firebaseUser.displayName,
+            photoURL: firebaseUser.photoURL,
+            createdAt: serverTimestamp()
+          }, { merge: true });
+        } catch (error) {
+          handleFirestoreError(error, OperationType.WRITE, `users/${firebaseUser.uid}`);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [setUser]);
+
+  useEffect(() => {
+    if (!user) {
+      setAlerts([]);
+      return;
+    }
+
+    const q = query(collection(db, 'alerts'), where('userId', '==', user.uid));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const alertsData = snapshot.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id
+      })) as any;
+      setAlerts(alertsData);
+    }, (error) => {
+      handleFirestoreError(error, OperationType.LIST, 'alerts');
+    });
+
+    return () => unsubscribe();
+  }, [user, setAlerts]);
 
   useEffect(() => {
     // Initial data
@@ -321,12 +365,33 @@ export default function App() {
               <CitySelector />
             </div>
             <div className="h-6 w-[1px] bg-black/10" />
-            <button 
-              onClick={() => setIsSignInOpen(true)}
-              className="px-6 py-2.5 bg-amber-500 text-black hover:bg-amber-600 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all shadow-xl shadow-black/5"
-            >
-              Sign In
-            </button>
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="flex flex-col items-end">
+                  <span className="text-[10px] font-bold text-zinc-900 uppercase tracking-widest">{user.displayName || 'User'}</span>
+                  <button 
+                    onClick={() => logout()}
+                    className="text-[9px] font-bold text-rose-500 uppercase tracking-widest hover:text-rose-600 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+                {user.photoURL ? (
+                  <img src={user.photoURL} alt="Profile" className="w-10 h-10 rounded-full border border-black/5" />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-zinc-400 border border-black/5">
+                    <UserIcon size={20} />
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button 
+                onClick={() => setIsSignInOpen(true)}
+                className="px-6 py-2.5 bg-amber-500 text-black hover:bg-amber-600 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all shadow-xl shadow-black/5"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </header>
