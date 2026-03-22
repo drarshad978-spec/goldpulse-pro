@@ -9,9 +9,8 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-async function startServer() {
+async function createServer() {
   const app = express();
-  const PORT = 3000;
 
   // API Proxy Routes to avoid CORS
   app.get("/api/proxy/metals/:symbol", async (req, res) => {
@@ -57,9 +56,21 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  return app;
 }
 
-startServer();
+// Export for Vercel
+export default async (req: express.Request, res: express.Response) => {
+  const app = await createServer();
+  return app(req, res);
+};
+
+// Only listen if this file is run directly
+if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+  createServer().then(app => {
+    const PORT = 3000;
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  });
+}

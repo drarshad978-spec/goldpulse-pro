@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { createChart, ColorType, IChartApi, AreaSeries } from 'lightweight-charts';
+import { createChart, ColorType, IChartApi, AreaSeries, MouseEventParams } from 'lightweight-charts';
 import useStore from '../store/useStore';
 import { fetchHistoricalPrices } from '../api/historical';
 import { Calendar } from 'lucide-react';
@@ -7,8 +7,23 @@ import { Calendar } from 'lucide-react';
 export default function Chart() {
   const chartContainerRef = useRef<HTMLDivElement>(null);
   const chartRef = useRef<IChartApi | null>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const { historicalPrices, setHistoricalPrices, selectedTimeframe, setSelectedTimeframe } = useStore();
   const [loading, setLoading] = useState(false);
+  const [tooltipData, setTooltipData] = useState<{
+    price: string;
+    date: string;
+    visible: boolean;
+    left: number;
+    top: number;
+  }>({
+    price: '',
+    date: '',
+    visible: false,
+    left: 0,
+    top: 0
+  });
+
   const [customRange, setCustomRange] = useState({
     start: new Date(Date.now() - 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
     end: new Date().toISOString().split('T')[0]
@@ -50,6 +65,20 @@ export default function Chart() {
       },
       handleScroll: true,
       handleScale: true,
+      crosshair: {
+        vertLine: {
+          color: '#F59E0B',
+          width: 1,
+          style: 3,
+          labelVisible: false,
+        },
+        horzLine: {
+          color: '#F59E0B',
+          width: 1,
+          style: 3,
+          labelVisible: false,
+        },
+      },
     });
 
     const lineSeries = chart.addSeries(AreaSeries, {
@@ -64,6 +93,32 @@ export default function Chart() {
     lineSeries.setData(historicalPrices);
     chart.timeScale().fitContent();
     chartRef.current = chart;
+
+    // Tooltip logic
+    chart.subscribeCrosshairMove((param: MouseEventParams) => {
+      if (
+        param.point === undefined ||
+        !param.time ||
+        param.point.x < 0 ||
+        param.point.x > chartContainerRef.current!.clientWidth ||
+        param.point.y < 0 ||
+        param.point.y > 400
+      ) {
+        setTooltipData(prev => ({ ...prev, visible: false }));
+      } else {
+        const data = param.seriesData.get(lineSeries) as any;
+        const price = data?.value !== undefined ? data.value : data?.close;
+        const date = param.time as string;
+        
+        setTooltipData({
+          visible: true,
+          price: price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+          date: date,
+          left: param.point.x,
+          top: param.point.y,
+        });
+      }
+    });
 
     const handleResize = () => {
       if (chartContainerRef.current) {
@@ -138,7 +193,25 @@ export default function Chart() {
           )}
         </div>
       </div>
-      <div ref={chartContainerRef} className="w-full relative z-10" />
+      
+      <div className="relative">
+        <div ref={chartContainerRef} className="w-full relative z-10" />
+        
+        {/* Custom Tooltip */}
+        {tooltipData.visible && (
+          <div 
+            className="absolute z-30 pointer-events-none bg-black/80 backdrop-blur-md border border-white/10 p-3 rounded-xl shadow-2xl"
+            style={{
+              left: tooltipData.left + 15,
+              top: tooltipData.top - 80,
+              transform: 'translateX(-50%)'
+            }}
+          >
+            <div className="text-[9px] font-black text-amber-500 uppercase tracking-widest mb-1">{tooltipData.date}</div>
+            <div className="text-sm font-black text-white tracking-tight">${tooltipData.price}</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
