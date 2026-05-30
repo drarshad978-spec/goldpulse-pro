@@ -3,9 +3,19 @@ import { fetchPriceViaAI } from "../services/geminiService";
 export async function fetchSilverPrice() {
   // Try API first to save Gemini quota
   try {
-    const res = await fetch('/api/proxy/metals/XAG');
-    const data = await res.json();
-    if (data.price) return data.price;
+    let res = await fetch('/api/proxy/metals/XAG');
+    let data : any = null;
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      console.warn('Vite proxy not available. Fetching silver price directly from Gold-API...');
+      res = await fetch('https://api.gold-api.com/price/XAG');
+      if (res.ok) {
+        data = await res.json();
+      }
+    }
+    if (data && data.price) return data.price;
   } catch (error) {
     console.error('API fetch for silver failed, trying AI fallback:', error);
   }
@@ -25,9 +35,19 @@ export async function fetchSilverPrice() {
 export async function fetchGoldPriceFallback() {
   // Try API first to save Gemini quota
   try {
-    const res = await fetch('/api/proxy/metals/XAU');
-    const data = await res.json();
-    if (data.price) return data.price;
+    let res = await fetch('/api/proxy/metals/XAU');
+    let data : any = null;
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      console.warn('Vite proxy not available. Fetching gold price directly from Gold-API...');
+      res = await fetch('https://api.gold-api.com/price/XAU');
+      if (res.ok) {
+        data = await res.json();
+      }
+    }
+    if (data && data.price) return data.price;
   } catch (error) {
     console.error('API fetch for gold failed, trying AI fallback:', error);
   }

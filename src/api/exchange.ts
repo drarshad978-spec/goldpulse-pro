@@ -15,8 +15,18 @@ export interface ExchangeRates {
 
 export async function fetchAllExchangeRates(): Promise<ExchangeRates> {
   try {
-    const res = await fetch('/api/proxy/exchange');
-    const data = await res.json();
+    let res = await fetch('/api/proxy/exchange');
+    let data : any = null;
+    const contentType = res.headers.get('content-type') || '';
+    if (res.ok && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      console.warn('Vite proxy not available. Fetching exchange rates directly from ER-API...');
+      res = await fetch('https://open.er-api.com/v6/latest/USD');
+      if (res.ok) {
+        data = await res.json();
+      }
+    }
     return {
       USD: 1,
       PKR: data.rates.PKR,
