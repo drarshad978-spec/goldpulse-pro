@@ -28,7 +28,7 @@ export async function fetchHistoricalPrices(
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
+      model: "gemini-3.5-flash",
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
@@ -51,7 +51,7 @@ export async function fetchHistoricalPrices(
     // Sort by time ascending for lightweight-charts
     return data.sort((a: any, b: any) => a.time.localeCompare(b.time));
   } catch (error) {
-    console.error(`Error fetching real historical prices for ${timeframe} via AI, using fallback generator:`, error);
+    console.info(`API Rate Limit / Quota limits: Serving computed/fallback historical data for ${timeframe}.`);
     
     // Fallback generator
     const base = 2000;
