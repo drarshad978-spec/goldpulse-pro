@@ -6,7 +6,7 @@ const MODELS = {
 };
 
 function getAI() {
-  const apiKey = process.env.GEMINI_API_KEY || "";
+  const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
   return new GoogleGenAI({ 
     apiKey,
     httpOptions: {
