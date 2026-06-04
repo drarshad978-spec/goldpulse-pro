@@ -92,47 +92,47 @@ export default function AIChatbot() {
     <div className="flex flex-col h-[450px] glass rounded-3xl overflow-hidden border-black/5 relative">
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 via-rose-500 to-emerald-500 z-20" />
       
-      <div className="p-8 border-b border-black/5 flex items-center justify-between bg-black/5 backdrop-blur-2xl relative z-10">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 vibrant-gradient rounded-2xl flex items-center justify-center text-black shadow-[0_0_20px_rgba(245,158,11,0.3)] border border-black/10">
-            <Bot size={32} />
+      <div className="p-4 sm:p-6 border-b border-black/5 flex items-center justify-between bg-black/5 backdrop-blur-2xl relative z-10">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-14 sm:h-14 vibrant-gradient rounded-2xl flex items-center justify-center text-black shadow-[0_0_20px_rgba(245,158,11,0.3)] border border-black/10">
+            <Bot size={24} className="sm:size-8" />
           </div>
           <div>
-            <h3 className="font-black text-zinc-900 text-lg tracking-tight">Market Oracle</h3>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              <p className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">AI Intelligence Active</p>
+            <h3 className="font-black text-zinc-900 text-sm sm:text-lg tracking-tight">Market Oracle</h3>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+              <p className="text-[8px] sm:text-[10px] font-black text-zinc-500 uppercase tracking-[0.3em]">AI Intelligence Active</p>
             </div>
           </div>
         </div>
         {isThinking && (
-          <div className="flex items-center gap-2 text-[10px] font-black text-amber-600 uppercase tracking-[0.2em] animate-pulse bg-amber-500/10 px-3 py-1.5 rounded-full border border-amber-500/20">
-            <Brain size={14}/> Deep Analysis
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[8px] sm:text-[10px] font-black text-amber-600 uppercase tracking-[0.2em] animate-pulse bg-amber-500/10 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-amber-500/20">
+            <Brain size={12} className="sm:size-3.5"/> Deep Analysis
           </div>
         )}
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 space-y-8 bg-black/[0.02] relative z-10 scrollbar-hide">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 sm:space-y-8 bg-black/[0.02] relative z-10 scrollbar-hide">
         <AnimatePresence initial={false}>
           {messages.map((msg, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              initial={{ opacity: 0, y: 15, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`max-w-[85%] p-6 rounded-3xl flex gap-4 relative group ${
+              <div className={`max-w-[90%] sm:max-w-[85%] p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex gap-3 sm:gap-4 relative group ${
                 msg.role === 'user' 
                   ? 'bg-amber-500 text-black rounded-tr-none font-bold shadow-xl' 
                   : 'glass border-black/5 text-zinc-900 rounded-tl-none shadow-lg'
               }`}>
-                <div className="text-[13px] leading-relaxed">
+                <div className="text-[12px] sm:text-[13px] leading-relaxed">
                   {msg.text}
                 </div>
                 {msg.role === 'bot' && (
-                  <div className="absolute -left-10 top-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-zinc-500">
-                      <Bot size={14} />
+                  <div className="absolute -left-8 sm:-left-10 top-0 opacity-0 group-hover:opacity-100 transition-opacity hidden sm:block">
+                    <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-black/5 flex items-center justify-center text-zinc-500">
+                      <Bot size={12} className="sm:size-3.5" />
                     </div>
                   </div>
                 )}
@@ -142,19 +142,19 @@ export default function AIChatbot() {
         </AnimatePresence>
         {isLoading && !isThinking && (
           <div className="flex justify-start">
-            <div className="glass border-black/5 px-8 py-4 rounded-full flex items-center gap-4 shadow-lg">
-              <div className="flex gap-2">
-                <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '0ms' }} />
-                <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '150ms' }} />
-                <div className="w-2 h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '300ms' }} />
+            <div className="glass border-black/5 px-4 sm:px-6 py-2 sm:py-3 rounded-full flex items-center gap-3 sm:gap-4 shadow-lg">
+              <div className="flex gap-1.5 sm:gap-2">
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '0ms' }} />
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '150ms' }} />
+                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-amber-500 rounded-full animate-bounce shadow-[0_0_8px_rgba(245,158,11,0.5)]" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           </div>
         )}
       </div>
 
-      <div className="p-8 border-t border-black/5 bg-black/5 backdrop-blur-2xl relative z-10">
-        <div className="flex gap-4 items-center">
+      <div className="p-4 sm:p-6 border-t border-black/5 bg-black/5 backdrop-blur-2xl relative z-10">
+        <div className="flex gap-2 sm:gap-4 items-center">
           <div className="flex-1 relative group">
             <input
               type="text"
@@ -162,31 +162,31 @@ export default function AIChatbot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSend()}
               placeholder="Inquire about market trends..."
-              className="w-full bg-white border border-black/10 rounded-2xl px-8 py-5 text-[13px] text-zinc-900 focus:ring-2 focus:ring-amber-500/50 outline-none transition-all placeholder:text-zinc-400"
+              className="w-full bg-white border border-black/10 rounded-xl sm:rounded-2xl pl-4 pr-16 sm:pl-6 sm:pr-24 py-3 sm:py-4 text-[12px] sm:text-[13px] text-zinc-900 focus:ring-2 focus:ring-amber-500/50 outline-none transition-all placeholder:text-zinc-400"
             />
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-4">
+            <div className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 flex items-center gap-2 sm:gap-4">
               <button 
                 onClick={() => fileInputRef.current?.click()}
-                className="p-2 text-zinc-400 hover:text-amber-600 transition-all hover:scale-110"
+                className="p-1 sm:p-2 text-zinc-400 hover:text-amber-600 transition-all hover:scale-110"
                 title="Analyze Image"
               >
-                <ImageIcon size={20} />
+                <ImageIcon size={18} className="sm:size-5" />
               </button>
               <button 
                 onClick={handleThinkingAnalysis}
-                className={`p-2 transition-all hover:scale-110 ${input.trim() ? 'text-amber-600' : 'text-zinc-400'}`}
+                className={`p-1 sm:p-2 transition-all hover:scale-110 ${input.trim() ? 'text-amber-600' : 'text-zinc-400'}`}
                 title="Deep Analysis"
               >
-                <Brain size={20} />
+                <Brain size={18} className="sm:size-5" />
               </button>
             </div>
           </div>
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="w-16 h-16 bg-amber-500 text-black rounded-2xl flex items-center justify-center hover:bg-amber-600 hover:scale-105 disabled:opacity-20 transition-all shadow-xl active:scale-95"
+            className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-500 text-black rounded-lg sm:rounded-xl flex items-center justify-center hover:bg-amber-600 hover:scale-105 disabled:opacity-20 transition-all shadow-lg active:scale-95"
           >
-            <Send size={28} />
+            <Send size={18} className="sm:size-6" />
           </button>
           <input 
             type="file" 

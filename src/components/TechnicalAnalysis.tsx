@@ -16,7 +16,7 @@ export default function TechnicalAnalysis() {
   ];
 
   return (
-    <div className="glass p-8 rounded-3xl border-black/5 relative overflow-hidden group">
+    <div className="glass p-5 sm:p-8 rounded-3xl border-black/5 relative overflow-hidden group">
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-emerald-500/10 transition-colors" />
       
       <div className="flex items-center gap-3 mb-8 relative z-10">

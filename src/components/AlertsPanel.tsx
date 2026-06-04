@@ -82,55 +82,55 @@ export default function AlertsPanel() {
     <div className="glass p-8 rounded-3xl border-black/5 relative overflow-hidden group">
       <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-rose-500/10 transition-colors" />
       
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10 relative z-10">
-        <div className="flex items-center gap-4">
-          <div className="p-3.5 bg-rose-500/10 text-rose-400 rounded-2xl border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
-            <Bell size={28} />
+      <div className="flex flex-row items-center justify-between gap-4 mb-8 sm:mb-10 relative z-10">
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="p-2 sm:p-3.5 bg-rose-500/10 text-rose-400 rounded-2xl border border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.2)]">
+            <Bell size={20} className="sm:size-7" />
           </div>
           <div>
-            <h3 className="text-xl font-black text-black tracking-tight">Price Sentinels</h3>
-            <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em]">Automated Market Monitoring</p>
+            <h3 className="text-base sm:text-xl font-black text-black tracking-tight leading-none sm:leading-snug">Price Sentinels</h3>
+            <p className="text-[8px] sm:text-[10px] text-zinc-500 font-black uppercase tracking-[0.2em] mt-1">Automated Market Monitoring</p>
           </div>
         </div>
         
-        <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/5 rounded-xl border border-emerald-500/10">
-          <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-          <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Sentinels Active</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/5 rounded-xl border border-emerald-500/10">
+          <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+          <span className="text-[8px] sm:text-[10px] font-black text-emerald-600 uppercase tracking-widest leading-none">A.I. Active</span>
         </div>
       </div>
 
-      <div className="space-y-8 relative z-10">
-        <div className="flex gap-4">
+      <div className="space-y-6 sm:space-y-8 relative z-10">
+        <div className="flex gap-2 sm:gap-4">
           <input
             type="number"
             placeholder="Target ($)"
             value={targetPrice}
             onChange={(e) => setTargetPrice(e.target.value)}
-            className="flex-1 bg-black/5 border border-black/10 rounded-2xl px-6 py-4 text-[13px] text-black font-bold focus:ring-2 focus:ring-emerald-500/50 outline-none transition-all placeholder:text-zinc-600 focus:bg-black/10"
+            className="flex-1 bg-black/5 border border-black/10 rounded-xl sm:rounded-2xl px-4 sm:px-6 py-3 sm:py-4 text-[12px] sm:text-[13px] text-black font-bold focus:ring-2 focus:ring-emerald-500/50 outline-none transition-all placeholder:text-zinc-500 focus:bg-black/10 min-w-0"
           />
           <select 
             value={direction} 
             onChange={(e) => setDirection(e.target.value as any)}
-            className="bg-black/5 border border-black/10 rounded-2xl px-4 py-4 text-[10px] font-black text-zinc-600 uppercase tracking-[0.2em] outline-none cursor-pointer hover:bg-black/10 transition-all"
+            className="bg-black/5 border border-black/10 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-3 sm:py-4 text-[9px] sm:text-[10px] font-black text-zinc-700 uppercase tracking-[0.2em] outline-none cursor-pointer hover:bg-black/10 transition-all shrink-0"
           >
             <option value="above" className="bg-white">Above</option>
             <option value="below" className="bg-white">Below</option>
           </select>
           <button 
             onClick={handleAddAlert}
-            className="w-14 h-14 vibrant-gradient text-black rounded-2xl flex items-center justify-center hover:scale-105 transition-all shadow-2xl active:scale-95 border border-black/10"
+            className="w-11 h-11 sm:w-14 sm:h-14 vibrant-gradient text-black rounded-xl sm:rounded-2xl flex items-center justify-center hover:scale-105 transition-all shadow-md sm:shadow-2xl active:scale-95 border border-black/10 shrink-0"
           >
-            <Plus size={28} />
+            <Plus size={20} className="sm:size-7" />
           </button>
         </div>
 
         <div className="max-h-[400px] overflow-y-auto pr-3 scrollbar-hide">
           {alerts.length === 0 ? (
-            <div className="text-center py-12 text-zinc-600 text-[10px] font-black uppercase tracking-[0.3em] italic bg-black/5 rounded-3xl border border-dashed border-black/10">
+            <div className="text-center py-8 sm:py-12 text-zinc-500 text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] italic bg-black/5 rounded-2xl sm:rounded-3xl border border-dashed border-black/10">
               No active sentinels
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
               {alerts.map(alert => (
                 <div 
                   key={alert.id} 

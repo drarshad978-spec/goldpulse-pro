@@ -25,27 +25,27 @@ export default function PredictionCard() {
   const { icon: Icon, color, bg, border, label } = config[prediction.direction];
 
   return (
-    <div className="glass p-8 rounded-3xl border-black/5 relative overflow-hidden group">
+    <div className="glass p-5 sm:p-8 rounded-3xl border-black/5 relative overflow-hidden group">
       <div className="absolute top-0 right-0 w-32 h-32 bg-black/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-amber-500/10 transition-colors" />
       
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div>
-          <h3 className="text-xl font-bold text-zinc-900 mb-1">Market Sentiment</h3>
+          <h3 className="text-lg sm:text-xl font-bold text-zinc-900 mb-1">Market Sentiment</h3>
           <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Algorithmic Forecast • 24H</p>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-8 items-center relative z-10">
-        <div className="flex items-center gap-6 flex-1">
+      <div className="flex flex-col md:flex-row gap-6 sm:gap-8 items-center relative z-10">
+        <div className="flex items-center gap-4 sm:gap-6 flex-1 w-full">
           <motion.div 
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
-            className={`p-6 rounded-2xl ${bg} ${color} ${border} border shadow-xl`}
+            className={`p-4 sm:p-6 rounded-2xl ${bg} ${color} ${border} border shadow-xl shrink-0`}
           >
-            <Icon size={40} />
+            <Icon size={32} className="sm:size-10" />
           </motion.div>
           <div>
-            <div className={`text-3xl font-black tracking-tighter ${color}`}>{label}</div>
+            <div className={`text-2xl sm:text-3xl font-black tracking-tighter ${color}`}>{label}</div>
             <div className="flex flex-col gap-2 mt-3">
               <div className="w-32 h-1.5 bg-black/5 rounded-full overflow-hidden">
                 <motion.div 

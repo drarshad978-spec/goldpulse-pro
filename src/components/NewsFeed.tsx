@@ -50,7 +50,7 @@ export default function NewsFeed() {
   }, []);
 
   return (
-    <div className="glass p-8 rounded-3xl border-black/5 relative overflow-hidden group">
+    <div className="glass p-5 sm:p-8 rounded-3xl border-black/5 relative overflow-hidden group">
       <div className="absolute top-0 right-0 w-32 h-32 bg-black/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-amber-500/10 transition-colors" />
       
       <div className="flex items-center justify-between mb-8 relative z-10">
@@ -65,7 +65,7 @@ export default function NewsFeed() {
 
       {/* AI Market Briefing */}
       {(briefing || summarizing) && (
-        <div className="mb-10 p-8 bg-amber-500/5 border border-amber-500/20 rounded-[2rem] relative overflow-hidden backdrop-blur-xl flex flex-col md:flex-row items-center gap-8">
+        <div className="mb-6 sm:mb-10 p-5 sm:p-8 bg-amber-500/5 border border-amber-500/20 rounded-2xl sm:rounded-[2rem] relative overflow-hidden backdrop-blur-xl flex flex-col md:flex-row items-center gap-4 sm:gap-8">
           <div className="absolute top-0 right-0 p-3 opacity-10">
             <Sparkles size={40} className="text-amber-500" />
           </div>
@@ -79,12 +79,12 @@ export default function NewsFeed() {
             </div>
           </div>
           {summarizing ? (
-            <div className="flex-1 space-y-3">
+            <div className="flex-1 space-y-3 w-full">
               <div className="h-1.5 bg-amber-500/10 rounded-full w-full animate-pulse" />
               <div className="h-1.5 bg-amber-500/10 rounded-full w-2/3 animate-pulse" />
             </div>
           ) : (
-            <p className="flex-1 text-[14px] text-zinc-700 leading-relaxed font-medium italic">
+            <p className="flex-1 text-[13px] sm:text-[14px] text-zinc-700 leading-relaxed font-medium italic">
               "{briefing}"
             </p>
           )}

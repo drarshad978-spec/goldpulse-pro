@@ -161,101 +161,116 @@ export default function App() {
         );
       default:
         return (
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-12 gap-6 sm:gap-8">
             {/* Main Content Area */}
-            <div className="col-span-12 space-y-8">
-              {/* Top Row: Price Cards (Landscape) */}
+            <div className="col-span-12 space-y-8 sm:space-y-12">
+              {/* Top Row: Price Cards */}
               <PriceCards />
 
-              <div className="space-y-8">
-                {/* Full Width Chart */}
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 blur-xl opacity-50" />
-                  <Chart />
+              {/* Main Adaptive Bento Workspace (Split on Large Screens, stacked on mobile) */}
+              <div className="grid grid-cols-12 gap-6 sm:gap-8">
+                {/* Mid-Left Column: Daily performance & Feed (Dense) */}
+                <div className="col-span-12 lg:col-span-8 space-y-6 sm:space-y-8">
+                  {/* Full Width Chart */}
+                  <div className="relative">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-amber-500/20 to-indigo-500/20 blur-xl opacity-50" />
+                    <Chart />
+                  </div>
+                  
+                  {/* Market Intelligence Feed */}
+                  <NewsFeed />
                 </div>
-                
-                {/* Landscape Market Intelligence */}
-                <NewsFeed />
-                
-                {/* Landscape Price Sentinels */}
-                <AlertsPanel />
+
+                {/* Mid-Right Column: Interactive Terminal Sidebar (Alarms, Chat) */}
+                <div className="col-span-12 lg:col-span-4 space-y-6 sm:space-y-8">
+                  {/* Price Sentinels */}
+                  <AlertsPanel />
+
+                  {/* AI Oracle Chat interface */}
+                  <AIChatbot />
+                </div>
               </div>
 
-              {/* Technical Indicators (Landscape) */}
-              <TechnicalAnalysis />
+              {/* Technical indicators & sentiment analysis */}
+              <div className="grid grid-cols-12 gap-6 sm:gap-8">
+                <div className="col-span-12 lg:col-span-8">
+                  <TechnicalAnalysis />
+                </div>
+                <div className="col-span-12 lg:col-span-4">
+                  <PredictionCard />
+                </div>
+              </div>
 
-              {/* Middle Row: Valuation Tool (Landscape) */}
-              <Calculator />
+              {/* Calculator and Breakdown row */}
+              <div className="grid grid-cols-12 gap-6 sm:gap-8">
+                <div className="col-span-12 lg:col-span-5">
+                  <Calculator />
+                </div>
+                <div className="col-span-12 lg:col-span-7">
+                  <PriceBreakdown />
+                </div>
+              </div>
               
               {/* Landscape Intelligence Section */}
               <div className="space-y-6">
-                <div className="glass rounded-[2.5rem] p-12 relative overflow-hidden group border-black/5 shadow-2xl">
-                  <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-amber-500/10 rounded-full -mr-64 -mt-64 blur-[120px] opacity-40 group-hover:opacity-60 transition-opacity duration-1000" />
-                  <div className="absolute bottom-0 left-0 w-80 h-80 bg-indigo-500/10 rounded-full -ml-40 -mb-40 blur-[100px] opacity-30" />
+                <div className="glass rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-12 relative overflow-hidden group border-black/5 shadow-2xl">
+                  <div className="absolute top-0 right-0 w-[250px] sm:w-[500px] h-[250px] sm:h-[500px] bg-amber-500/10 rounded-full -mr-32 sm:-mr-64 -mt-32 sm:-mt-64 blur-[80px] sm:blur-[120px] opacity-40 group-hover:opacity-60 transition-opacity duration-1000" />
+                  <div className="absolute bottom-0 left-0 w-40 sm:w-80 h-40 sm:h-80 bg-indigo-500/10 rounded-full -ml-20 sm:-ml-40 -mb-20 sm:-mb-40 blur-[60px] sm:blur-[100px] opacity-30" />
                   
                   <div className="relative z-10">
-                    <div className="flex items-center gap-4 mb-8">
-                      <div className="p-3 bg-amber-500/10 text-amber-500 rounded-2xl border border-amber-500/20 shadow-inner">
-                        <Sparkles size={20} />
+                    <div className="flex items-center gap-4 mb-6 sm:mb-8">
+                      <div className="p-2 sm:p-3 bg-amber-500/10 text-amber-500 rounded-2xl border border-amber-500/20 shadow-inner">
+                        <Sparkles size={18} />
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-[11px] font-black uppercase tracking-[0.4em] text-amber-500/80">Market Intelligence Briefing</span>
-                        <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Neural Network Analysis • v2.5</span>
+                        <span className="text-[9px] sm:text-[11px] font-black uppercase tracking-[0.4em] text-amber-500/80">Market Intelligence Briefing</span>
+                        <span className="text-[8px] sm:text-[9px] font-bold text-zinc-500 uppercase tracking-widest">Neural Network Analysis • v2.5</span>
                       </div>
                     </div>
-                    <div className="flex flex-col lg:flex-row gap-12 items-start">
-                      <div className="flex-1">
-                        <h2 className="text-5xl font-bold mb-8 leading-[1.1] text-zinc-900 font-serif italic tracking-tight">
-                          Gold Prices Surge as Central Banks <br />
+                    
+                    <div className="flex flex-col lg:flex-row gap-8 sm:gap-12 items-start">
+                      <div className="flex-1 w-full">
+                        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold mb-6 sm:mb-8 leading-tight text-zinc-900 font-serif italic tracking-tight">
+                          Gold Prices Surge as Central Banks <br className="hidden sm:inline" />
                           <span className="gold-text-gradient drop-shadow-2xl">Increase Global Reserves</span>
                         </h2>
-                        <p className="text-zinc-600 text-lg leading-relaxed mb-10 font-medium opacity-90">
+                        <p className="text-zinc-600 text-sm sm:text-base lg:text-lg leading-relaxed mb-8 sm:mb-10 font-medium opacity-90">
                           Our proprietary AI models analyze over 50 global data points including treasury yields, 
                           central bank reserves, and regional physical demand to provide real-time sentiment analysis.
                         </p>
-                        <div className="flex items-center gap-8">
-                          <button className="px-12 py-5 gold-gradient rounded-full font-black text-[11px] uppercase tracking-[0.2em] text-black hover:scale-105 hover:shadow-[0_0_50px_rgba(245,158,11,0.4)] transition-all duration-500 cursor-pointer active:scale-95">
+                        <div className="flex flex-wrap items-center gap-4 sm:gap-8">
+                          <button className="px-6 sm:px-12 py-3.5 sm:py-5 gold-gradient rounded-full font-black text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-black hover:scale-105 hover:shadow-[0_0_50px_rgba(245,158,11,0.4)] transition-all duration-500 cursor-pointer active:scale-95 w-full sm:w-auto">
                             Read Full Analysis
                           </button>
-                          <div className="flex items-center gap-3 px-4 py-2 bg-black/5 rounded-xl border border-black/5">
+                          <div className="flex items-center gap-3 px-4 py-2 bg-black/5 rounded-xl border border-black/5 mx-auto sm:mx-0">
                             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                             <span className="text-[10px] font-black text-zinc-600 uppercase tracking-widest">Live Feed Active</span>
                           </div>
                         </div>
                       </div>
+                      
                       <div className="lg:w-1/3 w-full space-y-6">
-                        <div className="p-6 bg-black/5 rounded-3xl border border-black/5">
-                          <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-4">Key Insight</h4>
-                          <p className="text-sm text-zinc-600 leading-relaxed italic">
+                        <div className="p-5 sm:p-6 bg-black/5 rounded-3xl border border-black/5">
+                          <h4 className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-amber-600 mb-3 sm:mb-4">Key Insight</h4>
+                          <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed italic">
                             "The current breakout above $2,150 suggests a structural shift in precious metal demand, driven by geopolitical hedging."
                           </p>
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
                             <div className="text-[9px] font-bold text-emerald-600 uppercase tracking-widest mb-1">Buy Signal</div>
-                            <div className="text-lg font-black text-emerald-700">Strong</div>
+                            <div className="text-base sm:text-lg font-black text-emerald-700">Strong</div>
                           </div>
                           <div className="p-4 bg-rose-500/5 rounded-2xl border border-rose-500/10">
                             <div className="text-[9px] font-bold text-rose-600 uppercase tracking-widest mb-1">Risk Level</div>
-                            <div className="text-lg font-black text-rose-700">Low</div>
+                            <div className="text-base sm:text-lg font-black text-rose-700">Low</div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
-                <div className="grid grid-cols-12 gap-6">
-                  <div className="col-span-12 lg:col-span-5">
-                    <PredictionCard />
-                  </div>
-                  <div className="col-span-12 lg:col-span-7">
-                    <AIChatbot />
-                  </div>
-                </div>
               </div>
-
-              <PriceBreakdown />
             </div>
           </div>
         );
@@ -307,35 +322,35 @@ export default function App() {
 
       {/* Header */}
       <header className="bg-white/70 backdrop-blur-2xl border-b border-black/5 sticky top-0 z-50">
-        <div className="max-w-[1600px] mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-6">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3 sm:gap-6">
             <button 
               onClick={() => setIsMenuOpen(true)}
-              className="p-3 hover:bg-black/5 rounded-xl transition-all text-zinc-500 hover:text-zinc-900 group"
+              className="p-2 sm:p-3 hover:bg-black/5 rounded-xl transition-all text-zinc-500 hover:text-zinc-900 group"
             >
-              <Menu size={24} className="group-hover:scale-110 transition-transform" />
+              <Menu size={20} className="sm:size-6 group-hover:scale-110 transition-transform" />
             </button>
-            <div className="h-8 w-[1px] bg-black/10" />
+            <div className="h-8 w-[1px] bg-black/10 hidden sm:block" />
             <div className="relative group">
               <div className="absolute inset-0 gold-gradient blur-2xl opacity-10 group-hover:opacity-20 transition-opacity" />
-              <Logo size={44} className="relative z-10" />
+              <Logo size={36} className="sm:size-11 relative z-10" />
             </div>
             <div className="flex flex-col">
-              <div className="flex items-baseline gap-2">
-                <h1 className="text-2xl font-black tracking-tighter text-zinc-900 leading-none flex items-center gap-1">
+              <div className="flex items-baseline gap-1.5 sm:gap-2">
+                <h1 className="text-base sm:text-2xl font-black tracking-tighter text-zinc-900 leading-none flex items-center gap-0.5 sm:gap-1">
                   GOLDPULSE
                   <span className="text-amber-600 italic font-serif">PRO</span>
                 </h1>
-                <div className="h-4 w-[1px] bg-black/10 mx-1" />
-                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-[0.2em] leading-none">Terminal</span>
+                <div className="h-4 w-[1px] bg-black/10 mx-1 hidden sm:block" />
+                <span className="text-[10px] font-bold text-amber-600 uppercase tracking-[0.2em] leading-none hidden sm:block">Terminal</span>
               </div>
-              <p className="text-[10px] font-medium text-zinc-500 uppercase tracking-[0.1em] mt-1.5">
+              <p className="text-[10px] font-medium text-zinc-500 uppercase tracking-[0.1em] mt-1.5 hidden md:block">
                 Live Gold Rate Pakistan • 24K & 22K Prices • Silver Rate • Market Analysis
               </p>
             </div>
           </div>
           
-          <nav className="hidden lg:flex items-center gap-10">
+          <nav className="hidden xl:flex items-center gap-10">
             {[
               { label: 'Gold', id: 'dashboard' },
               { label: 'Silver', id: 'dashboard' },
@@ -359,35 +374,35 @@ export default function App() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 sm:gap-6">
+            <div className="hidden sm:flex items-center gap-3">
               <CurrencySelector />
               <CitySelector />
             </div>
-            <div className="h-6 w-[1px] bg-black/10" />
+            <div className="h-6 w-[1px] bg-black/10 hidden sm:block" />
             {user ? (
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 <div className="flex flex-col items-end">
-                  <span className="text-[10px] font-bold text-zinc-900 uppercase tracking-widest">{user.displayName || 'User'}</span>
+                  <span className="text-[9px] sm:text-[10px] font-bold text-zinc-900 uppercase tracking-widest">{user.displayName || 'User'}</span>
                   <button 
                     onClick={() => logout()}
-                    className="text-[9px] font-bold text-rose-500 uppercase tracking-widest hover:text-rose-600 transition-colors"
+                    className="text-[8px] sm:text-[9px] font-bold text-rose-500 uppercase tracking-widest hover:text-rose-600 transition-colors"
                   >
                     Sign Out
                   </button>
                 </div>
                 {user.photoURL ? (
-                  <img src={user.photoURL} alt="Profile" className="w-10 h-10 rounded-full border border-black/5" />
+                  <img src={user.photoURL} alt="Profile" className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-black/5" />
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center text-zinc-400 border border-black/5">
-                    <UserIcon size={20} />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/5 flex items-center justify-center text-zinc-400 border border-black/5">
+                    <UserIcon size={16} className="sm:size-5" />
                   </div>
                 )}
               </div>
             ) : (
               <button 
                 onClick={() => setIsSignInOpen(true)}
-                className="px-6 py-2.5 bg-amber-500 text-black hover:bg-amber-600 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all shadow-xl shadow-black/5"
+                className="px-4 sm:px-6 py-2 sm:py-2.5 bg-amber-500 text-black hover:bg-amber-600 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-widest transition-all shadow-xl shadow-black/5"
               >
                 Sign In
               </button>
@@ -404,12 +419,12 @@ export default function App() {
 
         {/* Footer */}
         <footer className="mt-12 pt-8 border-t border-black/5 flex flex-col gap-6 relative z-10">
-          <div className="flex justify-between items-center text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold text-zinc-400 uppercase tracking-widest text-center md:text-left">
             <div className="flex items-center gap-3">
               <Logo size={20} className="opacity-30" />
               <span>© 2026 GoldPulse Pro Terminal</span>
             </div>
-            <div className="flex items-center gap-8">
+            <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-8">
               <button 
                 onClick={() => setIsFeedbackOpen(true)}
                 className="hover:text-amber-600 transition-colors"

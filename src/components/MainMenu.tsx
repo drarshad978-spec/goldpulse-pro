@@ -60,7 +60,7 @@ export default function MainMenu({ isOpen, onClose, activeSection, onSectionSele
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 left-0 bottom-0 w-full max-w-[380px] bg-white z-[101] shadow-2xl flex flex-col border-r border-black/5"
+            className="fixed top-0 left-0 bottom-0 w-full max-w-full sm:max-w-[380px] bg-white z-[101] shadow-2xl flex flex-col border-r border-black/5"
           >
             {/* Header */}
             <div className="p-8 flex items-center justify-between border-b border-black/5 bg-black/5">
