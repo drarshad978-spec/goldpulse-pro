@@ -15,6 +15,9 @@ interface GoldPulseState {
   user: User | null;
   spotGold: number;
   silver: number;
+  platinum: number;
+  palladium: number;
+  bitcoin: number;
   usdPkr: number;
   historicalPrices: HistoricalData[];
   alerts: Alert[];
@@ -27,6 +30,9 @@ interface GoldPulseState {
   setUser: (user: User | null) => void;
   setSpotGold: (price: number) => void;
   setSilver: (price: number) => void;
+  setPlatinum: (price: number) => void;
+  setPalladium: (price: number) => void;
+  setBitcoin: (price: number) => void;
   setUsdPkr: (rate: number) => void;
   setExchangeRates: (rates: Record<string, number>) => void;
   setHistoricalPrices: (data: HistoricalData[]) => void;
@@ -44,6 +50,9 @@ const useStore = create<GoldPulseState>((set, get) => ({
   user: null,
   spotGold: 2000,
   silver: 23.5,
+  platinum: 984.20,
+  palladium: 1042.15,
+  bitcoin: 68420.50,
   usdPkr: 280,
   historicalPrices: [],
   alerts: [],
@@ -75,6 +84,9 @@ const useStore = create<GoldPulseState>((set, get) => ({
   setUser: (user) => set({ user }),
   setSpotGold: (price) => set({ spotGold: price }),
   setSilver: (price) => set({ silver: price }),
+  setPlatinum: (price) => set({ platinum: price }),
+  setPalladium: (price) => set({ palladium: price }),
+  setBitcoin: (price) => set({ bitcoin: price }),
   setUsdPkr: (rate) => set((state) => ({ 
     usdPkr: rate,
     exchangeRates: { ...state.exchangeRates, PKR: rate }

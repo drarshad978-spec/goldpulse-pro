@@ -4,7 +4,7 @@ import { Coins, DollarSign, TrendingUp, ChevronDown } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function PriceCards() {
-  const { spotGold, silver, usdPkr, selectedCurrency, setSelectedCurrency, exchangeRates, selectedCity, setSelectedCity, cityPremiums } = useStore();
+  const { spotGold, silver, platinum, palladium, bitcoin, usdPkr, selectedCurrency, setSelectedCurrency, exchangeRates, selectedCity, setSelectedCity, cityPremiums } = useStore();
   const [unit, setUnit] = useState<'ounce' | 'tola' | 'tenGram' | 'gram' | 'kilogram'>('ounce');
 
   const currencySymbols: Record<string, string> = {
@@ -42,6 +42,8 @@ export default function PriceCards() {
 
   const convertedGold = spotGold * rate * unitFactors[unit];
   const convertedSilver = silver * rate * unitFactors[unit];
+  const convertedPlatinum = platinum * rate * unitFactors[unit];
+  const convertedPalladium = palladium * rate * unitFactors[unit];
 
   const cards = [
     { 
@@ -61,24 +63,24 @@ export default function PriceCards() {
       isPrice: true
     },
     { 
-      label: 'Platinum', 
-      value: `${symbol}${(984.20 * rate).toLocaleString(undefined, { maximumFractionDigits: 2 })}`, 
+      label: `Spot Platinum (${unitLabels[unit]})`, 
+      value: `${symbol}${convertedPlatinum.toLocaleString(undefined, { maximumFractionDigits: 2 })}`, 
       change: '+5.30', 
       icon: TrendingUp, 
       color: 'text-emerald-600',
       isPrice: true
     },
     { 
-      label: 'Palladium', 
-      value: `${symbol}${(1042.15 * rate).toLocaleString(undefined, { maximumFractionDigits: 2 })}`, 
+      label: `Spot Palladium (${unitLabels[unit]})`, 
+      value: `${symbol}${convertedPalladium.toLocaleString(undefined, { maximumFractionDigits: 2 })}`, 
       change: '-12.40', 
       icon: TrendingUp, 
       color: 'text-rose-600',
       isPrice: true
     },
     { 
-      label: 'Bitcoin', 
-      value: `${symbol}${(68420.50 * rate).toLocaleString(undefined, { maximumFractionDigits: 2 })}`, 
+      label: 'Bitcoin (BTC)', 
+      value: `${symbol}${(bitcoin * rate).toLocaleString(undefined, { maximumFractionDigits: 2 })}`, 
       change: '+1240.20', 
       icon: TrendingUp, 
       color: 'text-emerald-600',

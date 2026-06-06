@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useStore from './store/useStore';
 import { connectGoldWebSocket } from './api/finnhub';
 import { fetchAllExchangeRates } from './api/exchange';
-import { fetchSilverPrice, fetchGoldPriceFallback } from './api/metals';
+import { fetchSilverPrice, fetchGoldPriceFallback, fetchPlatinumPrice, fetchPalladiumPrice, fetchBitcoinPrice } from './api/metals';
 import { fetchHistoricalPrices } from './api/historical';
 import PriceCards from './components/PriceCards';
 import PriceBreakdown from './components/PriceBreakdown';
@@ -30,7 +30,7 @@ import TerminalStatus from './components/TerminalStatus';
 const FINNHUB_KEY = process.env.FINNHUB_API_KEY || "ct07799r01qj876g83qgct07799r01qj876g83r0";
 
 export default function App() {
-  const { user, setUser, setSpotGold, setSilver, setExchangeRates, setAlerts } = useStore();
+  const { user, setUser, setSpotGold, setSilver, setPlatinum, setPalladium, setBitcoin, setExchangeRates, setAlerts } = useStore();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -83,6 +83,9 @@ export default function App() {
     fetchSilverPrice().then(setSilver);
     fetchAllExchangeRates().then(setExchangeRates);
     fetchGoldPriceFallback().then(setSpotGold);
+    fetchPlatinumPrice().then(setPlatinum);
+    fetchPalladiumPrice().then(setPalladium);
+    fetchBitcoinPrice().then(setBitcoin);
 
     // WebSocket for real-time gold
     // Note: In real app, this key should be in .env
@@ -95,17 +98,26 @@ export default function App() {
       fetchAllExchangeRates().then(setExchangeRates);
     }, 300000);
 
-    // Refresh Silver every 10 minutes
-    const silverInterval = setInterval(() => {
+    // Refresh Silver, Platinum, Palladium, and Bitcoin every 10 minutes
+    const metalsInterval = setInterval(() => {
       fetchSilverPrice().then(setSilver);
+      fetchPlatinumPrice().then(setPlatinum);
+      fetchPalladiumPrice().then(setPalladium);
+      fetchBitcoinPrice().then(setBitcoin);
     }, 600000);
+
+    // Refresh Gold every 2 minutes
+    const goldInterval = setInterval(() => {
+      fetchGoldPriceFallback().then(setSpotGold);
+    }, 120000);
 
     return () => {
       socket.close();
       clearInterval(fxInterval);
-      clearInterval(silverInterval);
+      clearInterval(metalsInterval);
+      clearInterval(goldInterval);
     };
-  }, [setSpotGold, setSilver, setExchangeRates]);
+  }, [setSpotGold, setSilver, setPlatinum, setPalladium, setBitcoin, setExchangeRates]);
 
   const renderContent = () => {
     switch (activeSection) {
